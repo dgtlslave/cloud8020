@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <edit :park = "{{ $park }}"></edit>
+    <edit :vehicle = "{{ $vehicle }}"></edit>
 @endsection

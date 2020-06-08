@@ -149,7 +149,9 @@ export default {
         saveForm() {
             axios.post('/savePark', this.form).then((response)=>{
                 if(response.data == true){
-                    swal.fire('Success', 'Park successfuly saved', 'success')
+                    swal.fire('Success', 'Park successfuly saved', 'success').then((result) => {
+                        window.location.href = 'https://atptest.site/park'
+                    })
                 } else {
                     swal.fire('Error','Something went wrong','error')
                 }

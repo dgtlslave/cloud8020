@@ -63,32 +63,61 @@ class ParkController extends Controller
         return Park::all();
     }
 
-    public function edit_park(Request $request) {
-        return Park::where(['id' => $request->id])->get();
-        // return view('park.edit', $park);
+    public function edit_view(Request $request){
+        // dd($request->park);
+        $park = Park::where(['id' => $request->park])->first();
+        return view('park.edit', compact('park'));
     }
 
-    // public function editPark(Request $request) {
-    //     if(isset($request->id)) {
-    //         $city = City::find($request->current_city);
-    //         $city->name = $request->update_city;
-    //         $city->save();
+    public function save_edited_park(Request $request) {
 
-    //             return 1;
-    //         if($request->update_city){
-    //             $city = City::find($request->current_city);
-    //             $city->name = $request->update_city;
-    //             $city->save();
+        $count = 0;
+        $park = Park::where(['id' => $request->id])->first();
 
-    //             return 1;
-    //         }
-    //     }
-    // }
+        if($park->name != $request->name) {
+            $park->name = $request->name;
+            $count++;
+        }
+
+        if($park->address != $request->address) {
+            $park->address = $request->address;
+            $count++;
+        }
+
+        if($park->start != $request->start) {
+            $park->start = $request->start;
+            $count++;
+        }
+
+        if($park->end != $request->end) {
+            $park->end = $request->end;
+            $count++;
+        }
+
+        if($count != 0) {
+            $park->save();
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+
+    public function delete_park(Request $request) {
+        $park = Park::where(['id' => $request->id])->first();
+        // $park->delete();
+        return $park;
+
+        Park::where('vehicle_id',$request->id)->get()->each(function ($park) {
+            $park->players()->deatch();
+            $park->delete();
+        });
+            $park->delete();
+            return $park;
+    }
+
+    public function view_vehicle(Request $request) {
+        $park = Park::find($request->park)->vehicles()->get();
+        return view('vehicle.view', compact('park'));
+    }
+
 }
-
-
-// "vehicles" => []
-// "v_p_address" => null
-// "v_p_name" => null
-// "start" => null
-// "end" => null

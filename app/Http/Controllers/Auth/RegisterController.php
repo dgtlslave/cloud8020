@@ -75,18 +75,20 @@ class RegisterController extends Controller
                 'password' => Hash::make($data['password']),
             ]);
             if($manager){
-                $role = Role::create(['name' => 'manager']);
-                $permissions[] = Permission::create(['name' => 'create park']);
-                $permissions[] = Permission::create(['name' => 'edit park']);
-                $permissions[] = Permission::create(['name' => 'edit park']);
-                $permissions[] = Permission::create(['name' => 'delete park']);
-                $permissions[] = Permission::create(['name' => 'create vehicle']);
-                $permissions[] = Permission::create(['name' => 'edit vehicle']);
-                $permissions[] = Permission::create(['name' => 'delete vehicle']);
+                $role = Role::firstOrCreate(['name' => 'manager']);
+                $permissions[] = Permission::firstOrCreate(['name' => 'create park']);
+                $permissions[] = Permission::firstOrCreate(['name' => 'edit park']);
+                $permissions[] = Permission::firstOrCreate(['name' => 'delete park']);
+                $permissions[] = Permission::firstOrCreate(['name' => 'create vehicle']);
+                $permissions[] = Permission::firstOrCreate(['name' => 'edit vehicle']);
+                $permissions[] = Permission::firstOrCreate(['name' => 'delete vehicle']);
                 if($role->syncPermissions($permissions)) {
+                    $manager->assignRole(['manager']);
                     return $manager;
                 }
             }
+
+
         } elseif($data['role_perm'] == 'driver') {
             $manager = User::create([
                 'name' => $data['name'],
@@ -94,10 +96,11 @@ class RegisterController extends Controller
                 'password' => Hash::make($data['password']),
             ]);
             if($manager){
-                $role = Role::create(['name' => 'driver']);
-                $permissions[] = Permission::create(['name' => 'create vehicle']);
-                $permissions[] = Permission::create(['name' => 'edit vehicle']);
+                $role = Role::firstOrCreate(['name' => 'driver']);
+                $permissions[] = Permission::firstOrCreate(['name' => 'create vehicle']);
+                $permissions[] = Permission::firstOrCreate(['name' => 'edit vehicle']);
                 if($role->syncPermissions($permissions)) {
+                    $manager->assignRole(['driver']);
                     return $manager;
                 }
             }

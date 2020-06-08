@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <edit :park = "{{ $park }}"></edit>
+<create-vehicle></create-vehicle>
 @endsection

@@ -23,7 +23,10 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('park-view', require('./components/ParkView.vue').default);
 Vue.component('create-park', require('./components/CreatePark.vue').default);
 Vue.component('addvehicle', require('./components/AddVehicle.vue').default);
-Vue.component('edit-park', require('./components/EditPark.vue').default);
+Vue.component('edit', require('./components/Edit.vue').default);
+Vue.component('vehicleview', require('./components/VehicleView.vue').default);
+Vue.component('create-vehicle', require('./components/CreateVehicle.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
